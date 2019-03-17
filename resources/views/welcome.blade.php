@@ -79,7 +79,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <form action="admin/home" method="GET">
+                        <input type="submit" value="提交"/>
+                    </form>
                 </div>
 
                 <div class="links">

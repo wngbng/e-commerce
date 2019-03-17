@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+prefix('admin')->group(function () {
+
+});
+Route::group(['prefix' => '/v1/admin', 'namespace' => 'admin'], function () {
+    Route::get('admin/home', function(){
+        var_dump(121212);die;
+    });
+});
