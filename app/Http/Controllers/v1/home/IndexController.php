@@ -8,4 +8,12 @@ use App\Http\Controllers\Controller;
 class IndexController extends Controller
 {
     //
+    public function __construct()
+    {
+        echo 'home';
+    }
+
+    public function Index(){
+        echo 'home';
+    }
 }

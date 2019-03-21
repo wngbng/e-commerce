@@ -9,11 +9,12 @@ class IndexController extends Controller
 {
     public function __construct()
     {
-        var_dump(111);die;
+        echo 'admin';
     }
 
     public function Index(){
-        var_dump(2123);die;
+        echo 'admin';
+        die;
     }
     //
 }
