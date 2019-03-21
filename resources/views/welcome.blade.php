@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <form action="admin/home" method="GET">
+                    <form action="v1/admin/home" method="GET">
                         <input type="submit" value="提交"/>
                     </form>
                 </div>
