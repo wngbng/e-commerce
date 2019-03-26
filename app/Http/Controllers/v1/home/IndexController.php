@@ -10,10 +10,10 @@ class IndexController extends Controller
     //
     public function __construct()
     {
-        echo 'home';
     }
 
     public function Index(){
-        echo 'home';
+        $array = ['aaa','bbb'];
+        return view("home/index",compact($array));
     }
 }
