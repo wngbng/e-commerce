@@ -9,12 +9,11 @@ class IndexController extends Controller
 {
     public function __construct()
     {
-        echo 'admin';
+        
     }
 
     public function Index(){
-        echo 'admin';
-        die;
+        return view('admin/index');
     }
     //
 }

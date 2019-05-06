@@ -26,6 +26,7 @@
 //});
 Auth::routes();
 Route::get('/', 'v1\home\IndexController@Index');
+
 //路由前缀为v1/admin的执行"App\Http\Controllers\v1\admin" 命名空间下的控制器
 Route::group(['prefix'=>'v1/admin','namespace'=>'v1\admin'],function(){
     Route::get('index','IndexController@Index');
