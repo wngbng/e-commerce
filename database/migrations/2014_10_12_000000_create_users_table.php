@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
                 $table->increments('id');
                 $table->string('name')->comment('用户名称');
                 $table->string('email')->unique()->comment('用户邮箱');
+                $table->string('phone')->unique()->comment('用户手机');
                 $table->string('password')->comment('用户密码');
                 $table->rememberToken();
                 $table->timestamps();

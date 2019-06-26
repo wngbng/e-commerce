@@ -25,10 +25,25 @@
 //    Route::get('home','IndexController@Index');
 //});
 Auth::routes();
-Route::get('/', 'v1\home\IndexController@Index');
+
+//登录注册
+Route::group(['prefix' => 'jwt'], function () {
+    Route::post('register','JwtController@register');
+    Route::post('login','JwtController@login');
+//    Route::get('/', ['uses'=>'JwtController@index','middleware'=>'auth:apijwt']);
+});
+Route::group(['prefix'=>'/','namespace'=>'v1\home'],function() {
+    Route::get('/', 'IndexController@Index');
+//    Route::get('login', 'IndexController@Index');
+//    Route::post('logout', 'AuthController@logout');
+//    Route::post('refresh', 'AuthController@refresh');
+    Route::group(['prefix' => 'home','middleware'=>'jwt.auth'], function () {
+        Route::post('user', 'UserController@Index');
+    });
+});
 
 //路由前缀为v1/admin的执行"App\Http\Controllers\v1\admin" 命名空间下的控制器
-Route::group(['prefix'=>'v1/admin','namespace'=>'v1\admin'],function(){
+Route::group(['prefix'=>'v1/admin','namespace'=>'v1\admin','middleware'=>'admin.auth'],function(){
     Route::get('index','IndexController@Index');
 });
 Route::group(['prefix'=>'v1/home','namespace'=>'v1\home'],function(){
