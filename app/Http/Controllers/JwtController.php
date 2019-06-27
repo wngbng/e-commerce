@@ -46,8 +46,8 @@ class JwtController extends Controller
         $userInfo = $this->User->getUserInfo($where);
         if($userInfo){
 //            return response()->json(['result' => $userInfo]); //response()返回数组形式的
-//            return redirect('register')->with('message', '用户已存在'); //redirect()返回路由形式的
-            return view('msg')->with(['message'=>'用户已存在', 'url' =>'/register', 'jumpTime'=>2,]); // 返回到页面形式的
+            return redirect('register')->with('message', '用户已存在'); //redirect()返回路由形式的
+//            return view('msg')->with(['message'=>'用户已存在', 'url' =>'/register', 'jumpTime'=>2,]); // 返回到页面形式的
         }
         $user = JwtUser::create($credentials);
         if($user)

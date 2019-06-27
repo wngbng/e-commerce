@@ -75,8 +75,3 @@
     </div>
 </div>
 @endsection
-{{--错误提示--}}
-@if(Session::has('message'))
-    <div class="alert alert-info"> {{Session::get('message')}}
-    </div>
-@endif
