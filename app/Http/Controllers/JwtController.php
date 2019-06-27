@@ -41,13 +41,23 @@ class JwtController extends Controller
 //        $data['email'] = $post['email'];
 //        $data['password'] = bcrypt($post['password']);
 //        $user = $this->User->addUser($data);
+        $where = array();
+        $where['email'] = $request->input('email');
+        $userInfo = $this->User->getUserInfo($where);
+        if($userInfo){
+//            return response()->json(['result' => $userInfo]); //response()返回数组形式的
+//            return redirect('register')->with('message', '用户已存在'); //redirect()返回路由形式的
+            return view('msg')->with(['message'=>'用户已存在', 'url' =>'/register', 'jumpTime'=>2,]); // 返回到页面形式的
+        }
         $user = JwtUser::create($credentials);
         if($user)
         {
             $token = JWTAuth::fromUser($user);
-            return response()->json(['result' => $token]);
+            $data = array();
+            $data['remember_token'] = $token;
+            $this->User->editUser($where,$data);
+            return view('home',['data'=>$token]);
         }
-
     }
     public function Index(){
         echo 'Your has login ';

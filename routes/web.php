@@ -30,7 +30,7 @@ Auth::routes();
 Route::group(['prefix' => 'jwt'], function () {
     Route::post('register','JwtController@register');
     Route::post('login','JwtController@login');
-//    Route::get('/', ['uses'=>'JwtController@index','middleware'=>'auth:apijwt']);
+    Route::get('/', ['uses'=>'JwtController@index','middleware'=>'auth:apijwt']);
 });
 Route::group(['prefix'=>'/','namespace'=>'v1\home'],function() {
     Route::get('/', 'IndexController@Index');
