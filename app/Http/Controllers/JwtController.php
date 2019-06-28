@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class JwtController extends Controller
 {
@@ -21,6 +22,11 @@ class JwtController extends Controller
         $this->User = $User;
     }
 
+    //注册页面
+    public function showHomeRegister(){
+        return view('auth.register');
+    }
+
     /*注册*/
     public function register(Request $request)
     {
@@ -29,11 +35,6 @@ class JwtController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        $credentials = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ];
 //        $post = $request->post();
 //        $data = array();
 //        $data['remember_token'] = $post['_token'];
@@ -49,34 +50,47 @@ class JwtController extends Controller
             return redirect('register')->with('message', '用户已存在'); //redirect()返回路由形式的
 //            return view('msg')->with(['message'=>'用户已存在', 'url' =>'/register', 'jumpTime'=>2,]); // 返回到页面形式的
         }
+        //添加用户
+        $credentials = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ];
         $user = JwtUser::create($credentials);
         if($user)
         {
             $token = JWTAuth::fromUser($user);
-            $data = array();
-            $data['remember_token'] = $token;
-            $this->User->editUser($where,$data);
-            return view('home',['data'=>$token]);
+            return view('auth.login');
         }
     }
-    public function Index(){
-        echo 'Your has login ';
-        $token = JWTAuth::getToken();
-        $user = JWTAuth::parseToken()->authenticate();
-        echo "\n".var_dump($user);
+
+    //登录页面
+    public function showHomeLogin(){
+        return view('auth.login');
     }
 
     /*登录*/
     public function login(Request $request)
     {
-
         $credentials = $request->only('email','password');
-
+        $where = array();
+        $where['email'] = $request->input('email');
+        $userInfo = $this->User->getUserInfo($where);
+        if(!Hash::check($request->input('password'),$userInfo['password'])){
+//            $this->failed();//错误返回?
+            return redirect('login')->with('message', '密码错误'); //redirect()返回路由形式的
+        }
         if ( $token = Auth::guard($this->guard)->attempt($credentials) ) {
-
             return response()->json(['result' => $token]);
         } else {
             return response()->json(['result'=>false]);
         }
+    }
+
+    public function Index(){
+        echo 'Your has login ';
+        $token = JWTAuth::getToken();
+        $user = JWTAuth::parseToken()->authenticate();
+        echo "\n".var_dump($user);
     }
 }

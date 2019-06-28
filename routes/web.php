@@ -28,8 +28,14 @@ Auth::routes();
 
 //登录注册
 Route::group(['prefix' => 'jwt'], function () {
+    //前台注册
+    Route::get('showHomeRegister','JwtController@showHomeRegister');
     Route::post('register','JwtController@register');
+
+    //前台登录
+    Route::get('showHomeLogin','JwtController@showHomeLogin');
     Route::post('login','JwtController@login');
+
     Route::get('/', ['uses'=>'JwtController@index','middleware'=>'auth:apijwt']);
 });
 Route::group(['prefix'=>'/','namespace'=>'v1\home'],function() {
