@@ -66,6 +66,9 @@ class JwtController extends Controller
 
     //登录页面
     public function showHomeLogin(){
+//        $token = JWTAuth::getToken();
+//        $user = JWTAuth::parseToken()->authenticate();
+//        dd($token);
         return view('auth.login');
     }
 
@@ -77,10 +80,9 @@ class JwtController extends Controller
         $where['email'] = $request->input('email');
         $userInfo = $this->User->getUserInfo($where);
         if(!Hash::check($request->input('password'),$userInfo['password'])){
-//            $this->failed();//错误返回?
-            return redirect('login')->with('message', '密码错误'); //redirect()返回路由形式的
+            return redirect('login')->with('message', '密码错误');
         }
-        if ( $token = Auth::guard($this->guard)->attempt($credentials) ) {
+        if($token = Auth::guard($this->guard)->attempt($credentials)) {
             return response()->json(['result' => $token]);
         } else {
             return response()->json(['result'=>false]);
