@@ -10,7 +10,7 @@ class JwtUser extends Authenticatable  implements JWTSubject
 {
     protected $table="users";
     // Rest omitted for brevity
-    protected $fillable = ['name', 'email','password'];
+    protected $fillable = ['name', 'email','password','phone'];
     protected $hidden = ['password'];
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

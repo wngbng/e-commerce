@@ -28,6 +28,31 @@ class JwtController extends Controller
     }
 
     /*注册*/
+    public function registers(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $credentials = [
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ];
+        $user = JwtUser::create($credentials);
+        if($user)
+        {
+            $token = JWTAuth::fromUser($user);
+            var_dump($token);die;
+            return response()->json(['result' => $token]);
+        }
+
+    }
+
+    /*注册*/
     public function register(Request $request)
     {
         $this->validate($request, [

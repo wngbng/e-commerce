@@ -27,21 +27,11 @@ class CreateUsersTable extends Migration
         Schema::create('article', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->comment('文章标题');
+            $table->string('cover')->comment('文章封面,图片名称');
             $table->text('body')->nullable()->comment('文章内容');
-            $table->integer('user_id')->comment('用户id');
+            $table->integer('user_id')->comment('用户id或管理员id');
+            $table->integer('user_type')->default(1)->comment('默认1,1未用户发布,2后台管理员发布');
             $table->timestamps();
-        });
-        Schema::create('admin', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->comment('管理员账号');
-            $table->string('password')->comment('管理员密码');
-            $table->integer('type')->comment('管理员权限');
-            $table->timestamps();
-        });
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -54,7 +44,5 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('article');
-        Schema::dropIfExists('admin');
-        Schema::dropIfExists('password_resets');
     }
 }
